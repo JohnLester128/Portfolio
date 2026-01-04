@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom dark theme with eye-friendly colors */
+        :root {
+            --primary: #0f172a;
+            --secondary: #1e293b;
+            --accent: #334155;
+            --light: #475569;
+            --highlight: #3b82f6;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+        }
+        
+        body {
+            background-color: var(--primary);
+            color: var(--text-primary);
+        }
+        
+        .bg-primary { background-color: var(--primary); }
+        .bg-secondary { background-color: var(--secondary); }
+        .bg-accent { background-color: var(--accent); }
+        .bg-light { background-color: var(--light); }
+        .bg-highlight { background-color: var(--highlight); }
+        
+        .text-primary { color: var(--text-primary); }
+        .text-secondary { color: var(--text-secondary); }
+        .text-muted { color: var(--text-muted); }
+        
+        .border-primary { border-color: var(--primary); }
+        .border-secondary { border-color: var(--secondary); }
+        .border-accent { border-color: var(--accent); }
+        .border-light { border-color: var(--light); }
+        .border-highlight { border-color: var(--highlight); }
+        
+        /* Smooth transitions */
+        * {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+        }
+        
+        .skill-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--highlight);
+        }
+        
+        .project-card:hover, .certificate-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Simple Hero Animations */
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 1s ease-out forwards;
+        }
+
+        .fade-in-delay {
+            opacity: 0;
+            animation: fadeIn 1s ease-out 0.3s forwards;
+        }
+
+        .fade-in-delay-2 {
+            opacity: 0;
+            animation: fadeIn 1s ease-out 0.6s forwards;
+        }
+
+        .fade-in-delay-3 {
+            opacity: 0;
+            animation: fadeIn 1s ease-out 0.9s forwards;
+        }
+
+        .fade-in-delay-4 {
+            opacity: 0;
+            animation: fadeIn 1s ease-out 1.2s forwards;
+        }
+
+        .fade-in-delay-5 {
+            opacity: 0;
+            animation: fadeIn 1s ease-out 1.5s forwards;
+        }
+
+        .fade-in-delay-6 {
+            opacity: 0;
+            animation: fadeIn 1s ease-out 1.8s forwards;
+        }
+
+        .profile-hover:hover {
+            transform: scale(1.05);
+            transition: transform 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Navbar Button Animations */
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--highlight);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Portfolio Brand Animation */
+        .brand-logo {
+            transition: transform 0.3s ease;
+        }
+
+        .brand-logo:hover {
+            transform: scale(1.05);
+        }
+
+        /* Carousel Modal Styles */
+#thumbnailContainer::-webkit-scrollbar {
+    height: 6px;
+}
+
+#thumbnailContainer::-webkit-scrollbar-track {
+    background: var(--accent);
+    border-radius: 3px;
+}
+
+#thumbnailContainer::-webkit-scrollbar-thumb {
+    background: var(--highlight);
+    border-radius: 3px;
+}
+
+#thumbnailContainer::-webkit-scrollbar-thumb:hover {
+    background: #2563eb;
+}
+
+/* Modal animation */
+#projectModal {
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Image hover effects */
+#carouselMainImage {
+    transition: transform 0.3s ease;
+}
+
+#carouselMainImage:hover {
+    transform: scale(1.01);
+}
+
+
+    </style>
+</head>
+<body class="bg-primary text-primary">
+    
+    <!-- Navigation -->
+    <nav class="bg-secondary shadow-lg fixed w-full top-0 z-50 border-b border-accent">
+        <div class="max-w-6xl mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <a href="#" class="text-xl font-bold text-primary brand-logo">Portfolio</a>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#about" class="text-secondary hover:text-highlight transition nav-link">About</a>
+                    <a href="#skills" class="text-secondary hover:text-highlight transition nav-link">Skills</a>
+                    <a href="#certificates" class="text-secondary hover:text-highlight transition nav-link">Certificates</a>
+                    <a href="#projects" class="text-secondary hover:text-highlight transition nav-link">Projects</a>
+                    <a href="#contact" class="text-secondary hover:text-highlight transition nav-link">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-20 px-6">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="mb-8">
+                <div class="w-48 h-48 mx-auto rounded-full bg-gradient-to-br from-accent to-highlight flex items-center justify-center text-white text-6xl font-bold shadow-2xl border-[3px] border-solid profile-hover">
+                    <img src="images/aa.png" alt="John Lester's profile picture" class="rounded-full">
+                </div>
+            </div>
+            <h1 class="text-5xl md:text-6xl font-bold text-primary mb-6 fade-in">
+                Hi, I'm <span class="text-highlight">John Lester</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-secondary mb-8 leading-relaxed fade-in-delay">
+            I’m a web developer focused on building clean, functional websites.
+            </p>
+            <a href="#" download="images/JohnLesterLawagCV.pdf" class="inline-block bg-highlight text-white px-8 py-3 rounded-lg hover:bg-blue-700 hover:scale-105 transition font-medium shadow-lg hover:shadow-xl fade-in-delay">
+                Download CV
+            </a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 px-6 bg-secondary">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-4xl font-bold text-primary mb-12 text-center fade-in-delay-2">About Me</h2>
+            <div class="space-y-6 text-lg text-secondary leading-relaxed">
+                <p>
+                    Hi, I’m John Lester Lawag, an aspiring web developer with a growing interest in web development and design. I enjoy creating websites using modern web technologies. I’m currently focused on learning, improving my skills, and building projects that solve real-world problems.
+                
+            </div>
+            <!-- Experience and Education Row -->
+            <div class="mt-16 flex flex-col lg:flex-row gap-8">
+                <!-- Experience Section -->
+                <div class="flex-1">
+                    <h3 class="text-3xl font-semibold text-primary mb-8 pb-4 border-b border-accent">Experience</h3>
+                    <div class="space-y-8">
+                        <div class="bg-primary p-6 rounded-lg shadow-lg border border-accent">
+                            <div class="flex flex-col md:flex-row md:justify-between md:items-start">
+                                <div>
+                                    <h4 class="text-xl font-semibold text-primary mb-2">Colaboration Project</h4>
+                                    <p class="text-highlight font-medium mb-1">Filamer Christian University</p>
+                                    <p class="text-secondary text-sm">June 2025 - July 2025</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Education Section -->
+                <div class="flex-1">
+                    <h3 class="text-3xl font-semibold text-primary mb-8 pb-4 border-b border-accent">Education</h3>
+                    <div class="space-y-8">
+                        <div class="bg-primary p-6 rounded-lg shadow-lg border border-accent">
+                            <div class="flex flex-col md:flex-row md:justify-between md:items-start">
+                                <div>
+                                    <h4 class="text-xl font-semibold text-primary mb-2">BS in Information Technology</h4>
+                                    <p class="font-medium mb-1">Filamer Christian University</p>
+                                    <p class="text-secondary text-sm">2023 - Present</p>
+                                </div>
+                                <div class="text-right">
+                                    <span class="bg-highlight text-white px-3 py-1 rounded-full text-sm font-medium">Current</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-20 px-6 bg-primary">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-4xl font-bold text-primary mb-12 text-center fade-in-delay-3">Skills</h2>
+            
+            <!-- Front-End and Back-End Row -->
+            <div class="flex flex-col lg:flex-row gap-8 mb-16">
+                <!-- Front-End Skills Section -->
+                <div class="flex-1 bg-secondary p-6 rounded-lg border border-accent">
+                    <h3 class="text-3xl font-semibold text-primary mb-8 pb-4 border-b border-accent">Front-End</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        <div class="skill-card bg-primary p-4 rounded-lg shadow-lg border border-accent text-center flex flex-col items-center gap-2 transition">
+                            <h4 class="text-base font-semibold text-primary">HTML</h4>
+                        </div>
+
+                        <div class="skill-card bg-primary p-4 rounded-lg shadow-lg border border-accent text-center flex flex-col items-center gap-2 transition">
+                            <h4 class="text-base font-semibold text-primary">CSS</h4>
+                        </div>
+
+                        <div class="skill-card bg-primary p-4 rounded-lg shadow-lg border border-accent text-center flex flex-col items-center gap-2 transition">
+                            <h4 class="text-base font-semibold text-primary">JavaScript</h4>
+                        </div>
+
+                        <div class="skill-card bg-primary p-4 rounded-lg shadow-lg border border-accent text-center flex flex-col items-center gap-2 transition">
+                            <h4 class="text-base font-semibold text-primary">Tailwind</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Back-End Skills Section -->
+                <div class="flex-1 bg-secondary p-6 rounded-lg border border-accent">
+                    <h3 class="text-3xl font-semibold text-primary mb-8 pb-4 border-b border-accent">Back-End</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        <div class="skill-card bg-primary p-4 rounded-lg shadow-lg border border-accent text-center flex flex-col items-center gap-2 transition">
+                            <h4 class="text-base font-semibold text-primary">Python</h4>
+                        </div>
+
+                        <div class="skill-card bg-primary p-4 rounded-lg shadow-lg border border-accent text-center flex flex-col items-center gap-2 transition">
+                            <h4 class="text-base font-semibold text-primary">C#</h4>
+                        </div>
+
+                        <div class="skill-card bg-primary p-4 rounded-lg shadow-lg border border-accent text-center flex flex-col items-center gap-2 transition">
+                            <h4 class="text-base font-semibold text-primary">Java</h4>
+                        </div>
+
+                        <div class="skill-card bg-primary p-4 rounded-lg shadow-lg border border-accent text-center flex flex-col items-center gap-2 transition">
+                            <h4 class="text-base font-semibold text-primary">PHP</h4>
+                        </div>
+
+                        <div class="skill-card bg-primary p-4 rounded-lg shadow-lg border border-accent text-center flex flex-col items-center gap-2 transition">
+                            <h4 class="text-base font-semibold text-primary">Laravel</h4>
+                        </div>
+
+                        <div class="skill-card bg-primary p-4 rounded-lg shadow-lg border border-accent text-center flex flex-col items-center gap-2 transition">
+                            <h4 class="text-base font-semibold text-primary">Django</h4>
+                        </div>
+
+                        <div class="skill-card bg-primary p-4 rounded-lg shadow-lg border border-accent text-center flex flex-col items-center gap-2 transition">
+                            <h4 class="text-base font-semibold text-primary">SQL</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tools Section -->
+            <div class="bg-secondary p-6 rounded-lg border border-accent">
+                <h3 class="text-3xl font-semibold text-primary mb-8 pb-4 border-b border-accent">Tools & Technologies</h3>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                    <div class="skill-card bg-primary p-4 rounded-lg shadow-lg border border-accent text-center flex flex-col items-center gap-2 transition">
+                        <h4 class="text-base font-semibold text-primary">Git</h4>
+                    </div>
+
+                    <div class="skill-card bg-primary p-4 rounded-lg shadow-lg border border-accent text-center flex flex-col items-center gap-2 transition">
+                        <h4 class="text-base font-semibold text-primary">GitHub</h4>
+                    </div>
+
+                    <div class="skill-card bg-primary p-4 rounded-lg shadow-lg border border-accent text-center flex flex-col items-center gap-2 transition">
+                        <h4 class="text-base font-semibold text-primary">VS Code</h4>
+                    </div>
+
+                    <div class="skill-card bg-primary p-4 rounded-lg shadow-lg border border-accent text-center flex flex-col items-center gap-2 transition">
+                        <h4 class="text-base font-semibold text-primary">Figma</h4>
+                    </div>
+
+                    <div class="skill-card bg-primary p-4 rounded-lg shadow-lg border border-accent text-center flex flex-col items-center gap-2 transition">
+                        <h4 class="text-base font-semibold text-primary">AI Tools</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certificates Section -->
+    <section id="certificates" class="py-20 px-6 bg-secondary">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-4xl font-bold text-primary mb-12 text-center fade-in-delay-4">Certificates</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Certificate 1 -->
+                <div class="bg-primary flex flex-col max-w-sm p-6 border border-accent rounded-lg shadow-2xl hover:shadow-3xl hover:-translate-y-3 hover:border-highlight transition-all duration-300 cursor-pointer transform-gpu" onclick="this.style.transform='translateY(-10px)'; setTimeout(() => this.style.transform='translateY(0)', 150)">
+                    
+                        <img class="rounded-lg hover:brightness-110 transition-all duration-300 cursor-pointer" src="images/aicertificate.jpg" alt="Web Development Bootcamp Certificate" onclick="event.preventDefault(); openCertificateModal('images/aicertificate.jpg', 'Artificial Intelligence Foundations: Thinking Machines')" />
+                        <h5 class="mt-6 mb-2 text-xl font-semibold tracking-tight text-primary hover:text-accent transition-colors duration-300">Artificial Intelligence Foundations: Thinking Machines</h5>
+                    
+                    <p class="mb-6 text-secondary flex-grow">An introductory course covering key AI concepts and their real-world applications.</p>
+                    <a href="https://www.linkedin.com/learning/certificates/6e7e11534c562ace8c9b023e46446fadfee9088c125e0408e446df20578f5e25" class="inline-flex items-center text-secondary bg-accent border border-accent hover:bg-highlight hover:text-white hover:scale-105 focus:ring-4 focus:ring-accent shadow-sm font-medium leading-5 rounded-lg text-sm px-4 py-2.5 focus:outline-none transition-all duration-300 mt-auto self-start">
+                        View Certificate
+                        <svg class="w-4 h-4 ms-1.5 rtl:rotate-180 -me-0.5 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4"/></svg>
+                    </a>
+                </div>
+
+                <!-- Certificate 2 -->
+                <div class="bg-primary flex flex-col max-w-sm p-6 border border-accent rounded-lg shadow-2xl hover:shadow-3xl hover:-translate-y-3 hover:border-highlight transition-all duration-300 cursor-pointer transform-gpu" onclick="this.style.transform='translateY(-10px)'; setTimeout(() => this.style.transform='translateY(0)', 150)">
+                    
+                        <img class="rounded-lg hover:brightness-110 transition-all duration-300 cursor-pointer" src="images/ccer.jpg" alt="JavaScript Certificate" onclick="event.preventDefault(); openCertificateModal('images/ccer.jpg', 'Debugging in C#')" />
+                    
+                    
+                        <h5 class="mt-6 mb-2 text-xl font-semibold tracking-tight text-primary hover:text-accent transition-colors duration-300">Debugging in C#</h5>
+                    
+                    <p class="mb-6 text-secondary flex-grow">A practical course focused on debugging C# applications using Visual Studio Code and defensive programming techniques.</p>
+                    <a href="https://www.linkedin.com/learning/certificates/0ce71a05a4475e2e9185f2e816aa80261e66e12610cc86eee7189e8cd830f2b8" class="inline-flex items-center text-secondary bg-accent border border-accent hover:bg-highlight hover:text-white hover:scale-105 focus:ring-4 focus:ring-accent shadow-sm font-medium leading-5 rounded-lg text-sm px-4 py-2.5 focus:outline-none transition-all duration-300 mt-auto self-start">
+                        View Certificate
+                        <svg class="w-4 h-4 ms-1.5 rtl:rotate-180 -me-0.5 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4"/></svg>
+                    </a>
+                </div>
+
+                <!-- Certificate 3 -->
+                <div class="bg-primary flex flex-col max-w-sm p-6 border border-accent rounded-lg shadow-2xl hover:shadow-3xl hover:-translate-y-3 hover:border-highlight transition-all duration-300 cursor-pointer transform-gpu" onclick="this.style.transform='translateY(-10px)'; setTimeout(() => this.style.transform='translateY(0)', 150)">
+                    <img class="rounded-lg hover:brightness-110 transition-all duration-300 cursor-pointer" src="images/forntendcer.jpg" alt="Web Design Certificate" onclick="event.preventDefault(); openCertificateModal('images/forntendcer.jpg', 'HTML, CSS, and JavaScript: Building the Web')" />
+                    <h5 class="mt-6 mb-2 text-xl font-semibold tracking-tight text-primary hover:text-accent transition-colors duration-300">HTML, CSS, and JavaScript: Building the Web</h5>
+                    <p class="mb-6 text-secondary flex-grow">A beginner course covering HTML, CSS, and JavaScript through hands-on projects and AI-assisted web development.</p>
+                    <a href="https://www.linkedin.com/learning/certificates/6298a14d19a442b1bc169aa3b9a13815b365f4a358c47d13c43d55e0d3411229" class="inline-flex items-center text-secondary bg-accent border border-accent hover:bg-highlight hover:text-white hover:scale-105 focus:ring-4 focus:ring-accent shadow-sm font-medium leading-5 rounded-lg text-sm px-4 py-2.5 focus:outline-none transition-all duration-300 mt-auto self-start">
+                        View Certificate
+                        <svg class="w-4 h-4 ms-1.5 rtl:rotate-180 -me-0.5 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4"/></svg>
+                    </a>
+                </div>
+
+                <!-- Certificate 4 -->
+                <div class="bg-primary flex flex-col max-w-sm p-6 border border-accent rounded-lg shadow-2xl hover:shadow-3xl hover:-translate-y-3 hover:border-highlight transition-all duration-300 cursor-pointer transform-gpu" onclick="this.style.transform='translateY(-10px)'; setTimeout(() => this.style.transform='translateY(0)', 150)">
+                    <img class="rounded-lg hover:brightness-110 transition-all duration-300 cursor-pointer" src="images/iotcer.jpg" alt="Python Certificate" onclick="event.preventDefault(); openCertificateModal('images/iotcer.jpg', 'IoT Foundations: Fundamentals')" />
+                    <h5 class="mt-6 mb-2 text-xl font-semibold tracking-tight text-primary hover:text-accent transition-colors duration-300">IoT Foundations: Fundamentals</h5>
+                    <p class="mb-6 text-secondary flex-grow">A foundational course on IoT systems, components, and data processing using AI and analytics.</p>
+                    <a href="https://www.linkedin.com/learning/certificates/620dec1c12aaa36bc24e12913787eb96d58dc6fd8a484b3119c8f17c8493a536" class="inline-flex items-center text-secondary bg-accent border border-accent hover:bg-highlight hover:text-white hover:scale-105 focus:ring-4 focus:ring-accent shadow-sm font-medium leading-5 rounded-lg text-sm px-4 py-2.5 focus:outline-none transition-all duration-300 mt-auto self-start">
+                        View Certificate
+                        <svg class="w-4 h-4 ms-1.5 rtl:rotate-180 -me-0.5 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4"/></svg>
+                    </a>
+                </div>
+
+                <!-- Certificate 5 -->
+                <div class="bg-primary flex flex-col max-w-sm p-6 border border-accent rounded-lg shadow-2xl hover:shadow-3xl hover:-translate-y-3 hover:border-highlight transition-all duration-300 cursor-pointer transform-gpu" onclick="this.style.transform='translateY(-10px)'; setTimeout(() => this.style.transform='translateY(0)', 150)">
+                    <img class="rounded-lg hover:brightness-110 transition-all duration-300 cursor-pointer" src="images/wadcer.png" alt="Git & GitHub Certificate" onclick="event.preventDefault(); openCertificateModal('images/wadcer.png', 'Ignite Bootcamp - Venture Idea Development - Philippines')" />
+                    <h5 class="mt-6 mb-2 text-xl font-semibold tracking-tight text-primary hover:text-accent transition-colors duration-300">Ignite Bootcamp - Venture Idea Development - Philippines</h5>
+                    <p class="mb-6 text-secondary flex-grow">An entrepreneurship bootcamp focused on venture ideation, prototyping, and business modeling.</p>
+                    <a href="https://web.certificate.wfglobal.org/en/certificate?certificateId=693aa5f649e895be1f16d58d" class="inline-flex items-center text-secondary bg-accent border border-accent hover:bg-highlight hover:text-white hover:scale-105 focus:ring-4 focus:ring-accent shadow-sm font-medium leading-5 rounded-lg text-sm px-4 py-2.5 focus:outline-none transition-all duration-300 mt-auto self-start">
+                        View Certificate
+                        <svg class="w-4 h-4 ms-1.5 rtl:rotate-180 -me-0.5 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4"/></svg>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+
+    
+
+    <!-- Projects Section -->
+     <section id="projects" class="py-20 px-6 bg-primary">
+    <div class="max-w-6xl mx-auto">
+        <h2 class="text-4xl font-bold text-primary mb-12 text-center fade-in-delay-5">Projects</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <!-- Project 1 -->
+            <div class="bg-primary flex flex-col max-w-sm p-6 border border-accent rounded-lg shadow-2xl hover:shadow-3xl hover:-translate-y-3 hover:border-highlight transition-all duration-300 cursor-pointer" >
+                <img class="rounded-lg hover:brightness-110 transition-all duration-300" src="images/gun-1.png" alt="To-Do List App Screenshot" />
+                <h5 class="mt-6 mb-2 text-xl font-semibold tracking-tight text-primary hover:text-accent transition-colors duration-300">Savage Gun</h5>
+                <p class="mb-4 text-secondary flex-grow">Savage Guns is an online shopping website that displays information about firearms, accessories, and related gear. Users can browse products, learn about features and specifications, and contact sellers for questions. The site highlights safety, legal requirements, and responsible ownership for people interested in firearms.</p>
+                
+                <!-- Tech Stack -->
+                <div class="flex gap-2 flex-wrap mb-4">
+                    <span class="bg-accent text-white px-3 py-1 rounded-full text-sm">HTML</span>
+                    <span class="bg-accent text-white px-3 py-1 rounded-full text-sm">CSS</span>
+                    <span class="bg-accent text-white px-3 py-1 rounded-full text-sm">JavaScript</span>
+                </div>
+                
+                <div class="flex gap-2 mt-auto">
+                    <button onclick="openModal('project1')" class="inline-flex items-center text-secondary bg-accent border border-accent hover:bg-highlight hover:text-white hover:scale-105 focus:ring-4 focus:ring-accent shadow-sm font-medium leading-5 rounded-lg text-sm px-4 py-2.5 focus:outline-none transition-all duration-300">
+                        Preview
+                        <svg class="w-4 h-4 ms-1.5 rtl:rotate-180 -me-0.5 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4"/>
+                        </svg>
+                    </button>
+                    <a href="https://github.com/Lao-Mao21/GunDealership.git" class="inline-flex items-center text-secondary bg-accent border border-accent hover:bg-highlight hover:text-white hover:scale-105 focus:ring-4 focus:ring-accent shadow-sm font-medium leading-5 rounded-lg text-sm px-4 py-2.5 focus:outline-none transition-all duration-300">
+                        GitHub
+                        <svg class="w-4 h-4 ms-1.5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>  
+
+            <!-- Project 2 -->
+            <div class="bg-primary flex flex-col max-w-sm p-6 border border-accent rounded-lg shadow-2xl hover:shadow-3xl hover:-translate-y-3 hover:border-highlight transition-all duration-300 cursor-pointer" >
+                <img class="rounded-lg hover:brightness-110 transition-all duration-300" src="images/cm2.png" alt="Weather Dashboard Screenshot" />
+                <h5 class="mt-6 mb-2 text-xl font-semibold tracking-tight text-primary hover:text-accent transition-colors duration-300">Classroom Task Management System </h5>
+                <p class="mb-4 text-secondary flex-grow">This system addresses traditional classroom problems and difficulties and enables both teacher and students to efficiently manage assignments, deadlines and progress while fostering efficiency, accountability and productivity. </p>
+                
+                <!-- Tech Stack -->
+                <div class="flex gap-2 flex-wrap mb-4">
+                    <span class="bg-accent text-white px-3 py-1 rounded-full text-sm">HTML</span>
+                    <span class="bg-accent text-white px-3 py-1 rounded-full text-sm">CSS</span>
+                    <span class="bg-accent text-white px-3 py-1 rounded-full text-sm">JavaScript</span>
+                    <span class="bg-accent text-white px-3 py-1 rounded-full text-sm">Tailwind</span>
+                    <span class="bg-accent text-white px-3 py-1 rounded-full text-sm">Python</span>
+                    <span class="bg-accent text-white px-3 py-1 rounded-full text-sm">Django</span>
+                </div>
+                
+                <div class="flex gap-2 mt-auto">
+                    <button onclick="openModal('project2')" class="inline-flex items-center text-secondary bg-accent border border-accent hover:bg-highlight hover:text-white hover:scale-105 focus:ring-4 focus:ring-accent shadow-sm font-medium leading-5 rounded-lg text-sm px-4 py-2.5 focus:outline-none transition-all duration-300">
+                        Preview
+                        <svg class="w-4 h-4 ms-1.5 rtl:rotate-180 -me-0.5 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4"/>
+                        </svg>
+                    </button>
+                    <a href="https://github.com/joshua662/groupnineteensite.git" class="inline-flex items-center text-secondary bg-accent border border-accent hover:bg-highlight hover:text-white hover:scale-105 focus:ring-4 focus:ring-accent shadow-sm font-medium leading-5 rounded-lg text-sm px-4 py-2.5 focus:outline-none transition-all duration-300">
+                        GitHub
+                        <svg class="w-4 h-4 ms-1.5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Project 3 -->
+            <div class="bg-primary flex flex-col max-w-sm p-6 border border-accent rounded-lg shadow-2xl hover:shadow-3xl hover:-translate-y-3 hover:border-highlight transition-all duration-300 cursor-pointer" >
+                <img class="rounded-lg hover:brightness-110 transition-all duration-300" src="images/lar4.png" alt="Landing Page Screenshot" />
+                <h5 class="mt-6 mb-2 text-xl font-semibold tracking-tight text-primary hover:text-accent transition-colors duration-300">Employee Management System</h5>
+                <p class="mb-4 text-secondary flex-grow">An employee management system that stores basic employee information, including position, salary, and department. It helps organize employee records in a simple and easy way.</p>
+                
+                <!-- Tech Stack -->
+                <div class="flex gap-2 flex-wrap mb-4">
+                    <span class="bg-accent text-white px-3 py-1 rounded-full text-sm">HTML</span>
+                    <span class="bg-accent text-white px-3 py-1 rounded-full text-sm">Tailwind</span>
+                    <span class="bg-accent text-white px-3 py-1 rounded-full text-sm">JavaScript</span>
+                    <span class="bg-accent text-white px-3 py-1 rounded-full text-sm">PHP</span>
+                    <span class="bg-accent text-white px-3 py-1 rounded-full text-sm">Laravel</span>
+                </div>
+                
+                <div class="flex gap-2 mt-auto">
+                    <button onclick="openModal('project3')" class="inline-flex items-center text-secondary bg-accent border border-accent hover:bg-highlight hover:text-white hover:scale-105 focus:ring-4 focus:ring-accent shadow-sm font-medium leading-5 rounded-lg text-sm px-4 py-2.5 focus:outline-none transition-all duration-300">
+                        Preview
+                        <svg class="w-4 h-4 ms-1.5 rtl:rotate-180 -me-0.5 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4"/>
+                        </svg>
+                    </button>
+                    <a href="https://github.com/JohnLester128/lawag_midterm_project.git" class="inline-flex items-center text-secondary bg-accent border border-accent hover:bg-highlight hover:text-white hover:scale-105 focus:ring-4 focus:ring-accent shadow-sm font-medium leading-5 rounded-lg text-sm px-4 py-2.5 focus:outline-none transition-all duration-300">
+                        GitHub
+                        <svg class="w-4 h-4 ms-1.5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- Project Modal with Carousel (Image Only) -->
+<div id="projectModal" class="hidden fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4">
+    <div class="bg-secondary rounded-lg max-w-5xl w-full max-h-[90vh] overflow-hidden border border-accent">
+        <!-- Minimal Header with Close Button -->
+        <div class="p-4 flex justify-end">
+            <button onclick="closeModal()" class="text-secondary hover:text-primary text-3xl leading-none hover:scale-110 transition-transform duration-300 bg-black bg-opacity-30 rounded-full w-10 h-10 flex items-center justify-center">&times;</button>
+        </div>
+        
+        <!-- Carousel Container - Takes Most Space -->
+        <div class="px-6 pb-6">
+            <!-- Main Image Display -->
+            <div class="relative">
+                <img id="carouselMainImage" src="" alt="Project Image" class="w-full h-auto max-h-[70vh] object-contain rounded-lg shadow-lg">
+                
+                <!-- Navigation Arrows -->
+                <button id="prevBtn" class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-3 rounded-full hover:bg-opacity-70 transition-all duration-300 hover:scale-110">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                    </svg>
+                </button>
+                <button id="nextBtn" class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-3 rounded-full hover:bg-opacity-70 transition-all duration-300 hover:scale-110">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                </button>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+
+
+    
+    
+
+    <!-- Certificate Modal -->
+    <div id="certificateModal" class="hidden fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4">
+        <div class="bg-secondary rounded-lg max-w-4xl w-full max-h-[90vh] overflow-hidden border border-accent">
+            <div class="p-6 border-b border-accent flex justify-between items-center">
+                <h3 id="certificateModalTitle" class="text-2xl font-bold text-primary">Certificate Preview</h3>
+                <button onclick="closeCertificateModal()" class="text-secondary hover:text-primary text-3xl leading-none">&times;</button>
+            </div>
+            <div class="p-6 flex justify-center">
+                <img id="certificateModalImage" src="" alt="Certificate" class="max-w-full max-h-[70vh] object-contain rounded-lg">
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 px-6 bg-secondary">
+        <div class="max-w-lg mx-auto">
+            <h2 class="text-3xl font-bold text-primary mb-2 text-center fade-in-delay-6">Get In Touch</h2>
+            <p class="text-lg text-secondary mb-6 text-center">
+                I'm always open to discussing new projects, opportunities, or collaborations. Feel free to reach out!
+            </p>
+            
+            <!-- Contact Form -->
+            <form id="contactForm" class="bg-primary p-6 rounded-lg shadow-lg border border-accent mb-6">
+                <div class="mb-4">
+                    <label for="name" class="block text-secondary mb-2 font-medium">Name</label>
+                    <input type="text" id="name" name="name" required class="w-full px-4 py-3 bg-secondary border border-accent rounded-lg text-primary focus:outline-none focus:border-highlight transition placeholder-text-muted">
+                </div>
+                
+                <div class="mb-4">
+                    <label for="email" class="block text-secondary mb-2 font-medium">Email</label>
+                    <input type="email" id="email" name="email" required class="w-full px-4 py-3 bg-secondary border border-accent rounded-lg text-primary focus:outline-none focus:border-highlight transition placeholder-text-muted">
+                </div>
+                
+                <div class="mb-4">
+                    <label for="message" class="block text-secondary mb-2 font-medium">Your Message</label>
+                    <textarea id="message" name="message" rows="4" required class="w-full px-4 py-3 bg-secondary border border-accent rounded-lg text-primary focus:outline-none focus:border-highlight transition resize-none placeholder-text-muted"></textarea>
+                </div>
+                
+                <div id="formMessage" class="mb-4 hidden"></div>
+                
+                <button type="submit" id="submitBtn" class="w-full bg-highlight text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition font-medium shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed">
+                    <span id="btnText">Send Message</span>
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-primary py-8 px-6 border-t border-accent">
+        <div class="max-w-6xl mx-auto text-center">
+            <div class="flex flex-wrap justify-center gap-6 mb-6">
+                <a href="https://github.com/JohnLester128" target="_blank" class="text-secondary hover:text-highlight transition flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                    GitHub
+                </a>
+                <a href="mailto:johnlesterlawag03@email.com" class="text-secondary hover:text-highlight transition flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                    </svg>
+                    Email
+                </a>
+                <a href="tel:+1234567890" class="text-secondary hover:text-highlight transition flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                    </svg>
+                    Phone
+                </a>
+                <a href="https://instagram.com" target="_blank" class="text-secondary hover:text-highlight transition flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                    Instagram
+                </a>
+                <a href="https://www.facebook.com/john.lester.lawag/" target="_blank" class="text-secondary hover:text-highlight transition flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                    </svg>
+                    Facebook
+                </a>
+
+            </div>
+            <p class="text-secondary">&copy; 2026  John Lester Lawag. Built with passion and AI.</p>
+        </div>
+    </footer>
+
+    <script>
+
+        // Certificate Modal Functions
+        function openCertificateModal(imageSrc, title) {
+            document.getElementById('certificateModalImage').src = imageSrc;
+            document.getElementById('certificateModalTitle').textContent = title;
+            document.getElementById('certificateModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCertificateModal() {
+            document.getElementById('certificateModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close certificate modal on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+                closeCertificateModal();
+            }
+        });
+
+        // Close certificate modal when clicking outside
+        document.getElementById('certificateModal').addEventListener('click', (e) => {
+            if (e.target.id === 'certificateModal') closeCertificateModal();
+        });
+
+        // Contact Form Handling
+        document.getElementById('contactForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const btnText = document.getElementById('btnText');
+            const formMessage = document.getElementById('formMessage');
+            
+            // Get form data
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // Disable button and show loading
+            submitBtn.disabled = true;
+            btnText.textContent = 'Sending...';
+            
+            try {
+                // Simulate form submission (replace with actual endpoint)
+                // For now, we'll just show a success message after a delay
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                // Show success message
+                formMessage.className = 'mb-4 p-4 bg-green-600 text-white rounded-lg';
+                formMessage.textContent = 'Thank you for your message! I\'ll get back to you soon.';
+                formMessage.classList.remove('hidden');
+                
+                // Reset form
+                this.reset();
+                
+                // Hide message after 5 seconds
+                setTimeout(() => {
+                    formMessage.classList.add('hidden');
+                }, 5000);
+                
+            } catch (error) {
+                // Show error message
+                formMessage.className = 'mb-4 p-4 bg-red-600 text-white rounded-lg';
+                formMessage.textContent = 'Sorry, there was an error sending your message. Please try again.';
+                formMessage.classList.remove('hidden');
+            } finally {
+                // Re-enable button
+                submitBtn.disabled = false;
+                btnText.textContent = 'Send Message';
+            }
+        });
+
+
+// Project data - update with your actual project images
+const projectData = {
+    project1: {
+        images: [
+            "images/gun-1.png",
+            "images/gun-2.png",
+            "images/gun-3.png"
+        ]
+    },
+    project2: {
+        images: [
+            "images/cm2.png",
+            "images/cms1.png",
+            "images/cms5.png",
+            "images/cms3.png",
+            "images/cms4.png"
+        ]
+    },
+    project3: {
+        images: [
+            "images/lar4.png",
+            "images/lar3.png",
+            "images/lar2.png",
+            "images/lar1.png"
+        ]
+    }
+};
+
+// Modal state
+let currentProject = null;
+let currentImageIndex = 0;
+
+// Open modal function
+function openModal(projectId) {
+    currentProject = projectData[projectId];
+    if (!currentProject) return;
+    
+    currentImageIndex = 0;
+    
+    // Update carousel
+    updateCarousel();
+    
+    // Show modal
+    document.getElementById('projectModal').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+
+// Close modal function
+function closeModal() {
+    document.getElementById('projectModal').classList.add('hidden');
+    document.body.style.overflow = 'auto';
+}
+
+// Update carousel display
+function updateCarousel() {
+    if (!currentProject) return;
+    
+    const images = currentProject.images;
+    const mainImage = document.getElementById('carouselMainImage');
+    const thumbnailContainer = document.getElementById('thumbnailContainer');
+    const totalImages = document.getElementById('totalImages');
+    const currentImage = document.getElementById('currentImage');
+    
+    // Update main image
+    if (mainImage && images[currentImageIndex]) {
+        mainImage.src = images[currentImageIndex];
+        mainImage.alt = `Project Image ${currentImageIndex + 1}`;
+    }
+    
+    // Update counter
+    if (currentImage && totalImages) {
+        currentImage.textContent = currentImageIndex + 1;
+        totalImages.textContent = images.length;
+    }
+    
+    // Update thumbnails
+    if (thumbnailContainer) {
+        thumbnailContainer.innerHTML = '';
+        images.forEach((image, index) => {
+            const thumbnail = document.createElement('img');
+            thumbnail.src = image;
+            thumbnail.alt = `Thumbnail ${index + 1}`;
+            thumbnail.className = `w-24 h-20 object-cover rounded-lg cursor-pointer transition-all duration-300 ${
+                index === currentImageIndex 
+                ? 'border-2 border-highlight ring-2 ring-highlight opacity-100 scale-105' 
+                : 'border border-accent opacity-70 hover:opacity-100 hover:scale-105'
+            }`;
+            thumbnail.addEventListener('click', () => {
+                currentImageIndex = index;
+                updateCarousel();
+            });
+            thumbnailContainer.appendChild(thumbnail);
+        });
+    }
+}
+
+// Event listeners for navigation
+document.addEventListener('DOMContentLoaded', () => {
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const modal = document.getElementById('projectModal');
+    
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            if (!currentProject) return;
+            currentImageIndex = (currentImageIndex - 1 + currentProject.images.length) % currentProject.images.length;
+            updateCarousel();
+        });
+    }
+    
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            if (!currentProject) return;
+            currentImageIndex = (currentImageIndex + 1) % currentProject.images.length;
+            updateCarousel();
+        });
+    }
+    
+    // Close modal when clicking outside
+    if (modal) {
+        modal.addEventListener('click', (e) => {
+            if (e.target.id === 'projectModal') closeModal();
+        });
+    }
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        const modal = document.getElementById('projectModal');
+        if (modal && !modal.classList.contains('hidden')) {
+            if (e.key === 'ArrowLeft') {
+                if (prevBtn) prevBtn.click();
+            } else if (e.key === 'ArrowRight') {
+                if (nextBtn) nextBtn.click();
+            } else if (e.key === 'Escape') {
+                closeModal();
+            }
+        }
+    });
+});
+    </script>
+
+</body>
+</html>
