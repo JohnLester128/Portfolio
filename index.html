@@ -188,7 +188,7 @@
     <nav class="bg-secondary shadow-lg fixed w-full top-0 z-50 border-b border-accent">
         <div class="max-w-6xl mx-auto px-6 py-4">
             <div class="flex justify-between items-center">
-                <a href="#" class="text-xl font-bold text-primary brand-logo">Portfolio</a>
+                <a href="#" class="text-xl font-bold text-highlight brand-logo">Portfolio</a>
                 <div class="hidden md:flex space-x-8">
                     <a href="#about" class="text-secondary hover:text-highlight transition nav-link">About</a>
                     <a href="#skills" class="text-secondary hover:text-highlight transition nav-link">Skills</a>
@@ -214,9 +214,14 @@
             <p class="text-xl md:text-2xl text-secondary mb-8 leading-relaxed fade-in-delay">
             I’m a web developer focused on building clean, functional websites.
             </p>
-            <a href="#" download="images/JohnLesterLawagCV.pdf" class="inline-block bg-highlight text-white px-8 py-3 rounded-lg hover:bg-blue-700 hover:scale-105 transition font-medium shadow-lg hover:shadow-xl fade-in-delay">
-                Download CV
-            </a>
+            <div class="flex gap-4 justify-center">
+                <a href="images/JohnLesterLawagCV.pdf" download="JohnLesterLawagCV.pdf" class="inline-block bg-highlight text-white px-8 py-3 rounded-lg hover:bg-blue-700 hover:scale-105 transition font-medium shadow-lg hover:shadow-xl fade-in-delay">
+                    Download CV
+                </a>
+                <a href="#contact" class="inline-block bg-accent text-white px-8 py-3 rounded-lg hover:bg-highlight hover:scale-105 transition font-medium shadow-lg hover:shadow-xl fade-in-delay">
+                    Contact Me
+                </a>
+            </div>
         </div>
     </section>
 
@@ -227,7 +232,7 @@
             <div class="space-y-6 text-lg text-secondary leading-relaxed">
                 <p>
                     Hi, I’m John Lester Lawag, an aspiring web developer with a growing interest in web development and design. I enjoy creating websites using modern web technologies. I’m currently focused on learning, improving my skills, and building projects that solve real-world problems.
-                
+                </p>
             </div>
             <!-- Experience and Education Row -->
             <div class="mt-16 flex flex-col lg:flex-row gap-8">
@@ -240,7 +245,7 @@
                                 <div>
                                     <h4 class="text-xl font-semibold text-primary mb-2">Colaboration Project</h4>
                                     <p class="text-highlight font-medium mb-1">Programmer</p>
-                                    <p class="text-secondary text-sm">Filamer Christian University • June 2025 - July 2025</p>
+                                    <p class="text-secondary text-sm">Filamer Christian University • June 2025</p>
                                 </div>
                             </div>
                         </div>
@@ -265,7 +270,8 @@
                         </div>
                     </div>
                 </div>
-            </div>        </div>
+            </div>
+        </div>
     </section>
 
     <!-- Skills Section -->
@@ -592,7 +598,7 @@
             </p>
             
             <!-- Contact Form -->
-            <form id="contactForm" class="bg-primary p-6 rounded-lg shadow-lg border border-accent mb-6">
+            <form id="contactForm" action="https://formspree.io/f/mkogdjko" method="POST" class="bg-primary p-6 rounded-lg shadow-lg border border-accent mb-6">
                 <div class="mb-4">
                     <label for="name" class="block text-secondary mb-2 font-medium">Name</label>
                     <input type="text" id="name" name="name" required class="w-full px-4 py-3 bg-secondary border border-accent rounded-lg text-primary focus:outline-none focus:border-highlight transition placeholder-text-muted">
@@ -685,7 +691,7 @@
             if (e.target.id === 'certificateModal') closeCertificateModal();
         });
 
-        // Contact Form Handling
+        // Contact Form Handling with Formspree
         document.getElementById('contactForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -695,30 +701,40 @@
             
             // Get form data
             const formData = new FormData(this);
-            const data = Object.fromEntries(formData);
             
             // Disable button and show loading
             submitBtn.disabled = true;
             btnText.textContent = 'Sending...';
             
             try {
-                // Simulate form submission (replace with actual endpoint)
-                // For now, we'll just show a success message after a delay
-                await new Promise(resolve => setTimeout(resolve, 2000));
+                // Send form data to Formspree
+                const response = await fetch(this.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
                 
-                // Show success message
-                formMessage.className = 'mb-4 p-4 bg-green-600 text-white rounded-lg';
-                formMessage.textContent = 'Thank you for your message! I\'ll get back to you soon.';
-                formMessage.classList.remove('hidden');
-                
-                // Reset form
-                this.reset();
-                
-                // Hide message after 5 seconds
-                setTimeout(() => {
-                    formMessage.classList.add('hidden');
-                }, 5000);
-                
+                if (response.ok) {
+                    // Show success message
+                    formMessage.className = 'mb-4 p-4 bg-green-600 text-white rounded-lg';
+                    formMessage.textContent = 'Thank you for your message! I\'ll get back to you soon.';
+                    formMessage.classList.remove('hidden');
+                    
+                    // Reset form
+                    this.reset();
+                    
+                    // Hide message after 5 seconds
+                    setTimeout(() => {
+                        formMessage.classList.add('hidden');
+                    }, 5000);
+                } else {
+                    // Show error message
+                    formMessage.className = 'mb-4 p-4 bg-red-600 text-white rounded-lg';
+                    formMessage.textContent = 'Sorry, there was an error sending your message. Please try again.';
+                    formMessage.classList.remove('hidden');
+                }
             } catch (error) {
                 // Show error message
                 formMessage.className = 'mb-4 p-4 bg-red-600 text-white rounded-lg';
@@ -874,5 +890,4 @@ document.addEventListener('DOMContentLoaded', () => {
     </script>
 
 </body>
-
 </html>
